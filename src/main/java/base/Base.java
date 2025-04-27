@@ -1,6 +1,7 @@
 package base;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -19,7 +20,7 @@ public class Base  extends Utility{
 	}
 	
 	@DataProvider
-	public String[][] readData() throws IOException {
+	public String[][] readData() throws IOException, URISyntaxException {
 		
 		String[][] data = readExcel(sheetname);
 		return data;

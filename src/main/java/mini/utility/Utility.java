@@ -1,6 +1,10 @@
 package mini.utility;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -14,6 +18,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import org.openqa.selenium.edge.EdgeDriver;
 import java.io.File;
+import java.io.FileInputStream;
 
 import org.apache.commons.io.FileUtils;
 
@@ -42,10 +47,13 @@ public class Utility {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 	}
 
-	public static String[][] readExcel(String sheetname) throws IOException {
+	public static String[][] readExcel(String sheetname) throws IOException, URISyntaxException {
 
-		XSSFWorkbook book = new XSSFWorkbook(
-				"C:\\Users\\srinu\\automation\\mini-prj-1\\src\\test\\resources\\mini-prj-1.xlsx");
+				URL url = ClassLoader.getSystemResource("mini-prj-1.xlsx");
+				Path path = Paths.get(url.toURI());
+		//XSSFWorkbook book = new XSSFWorkbook(
+		//		"C:\\Users\\srinu\\automation\\mini-prj-1\\src\\test\\resources\\mini-prj-1.xlsx");
+						XSSFWorkbook book = new XSSFWorkbook(path.toString());
 		XSSFSheet sheet = book.getSheet(sheetname);
 		int rowcount = sheet.getLastRowNum();
 		short columncount = sheet.getRow(0).getLastCellNum();
@@ -70,7 +78,7 @@ public class Utility {
 
 	public static String screenshot(String name) throws IOException {
 
-		String path = "C:\\Users\\srinu\\automation\\mini-prj-1\\screenshots\\" + name + ".png";
+		String path = "screenshots\\" + name + ".png";
 		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		File dest = new File(path);
 		FileUtils.copyFile(src, dest);
